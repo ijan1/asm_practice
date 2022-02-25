@@ -39,8 +39,7 @@ _start:
 	call return
 
 ; ssize_t read(int fd, void *buf, size_t count);
-; This function will read data from stdout, into
-; 'buffer'.
+; Read data from stdout, into 'buffer'.
 read:
 	mov eax,syscall_read ; syscall read
 	mov ebx,stdin ; fd = 0
@@ -48,7 +47,7 @@ read:
 	ret
 		
 ; ssize_t write(int fd, const void *buf, size_t count);
-; Writes data from 'buffer' into STDOUT
+; Writes data from 'buffer' into STDOUT.
 write:
 	mov eax,syscall_write
 	mov ebx,stdout

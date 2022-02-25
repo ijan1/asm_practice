@@ -11,5 +11,9 @@ read:	read.asm
 	$(CC) $(CFLAGS) read.asm
 	$(LD) read read.o
 
+snake:	snake.asm
+	$(CC) $(CFLAGS) snake.asm
+	$(LD) snake snake.o
+
 clean:
-	rm -f hello_world hello_world.o read read.o
+	rm -f hello_world hello_world.o read read.o snake snake.o
