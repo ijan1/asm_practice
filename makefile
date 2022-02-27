@@ -1,6 +1,8 @@
 CC=nasm
-CFLAGS=-f elf64
-LD=ld -s  -o
+CFLAGS64=-f elf64
+CFLAGS=-f elf32
+LD64=ld -s -o
+LD=ld -m elf_i386 -s -o
 all: main
 
 hello:	hello_world.asm
