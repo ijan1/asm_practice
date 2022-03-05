@@ -1,11 +1,8 @@
 section .data
-	sideLen: equ 39
-	sideChar: equ '#'
-	side: times sideLen db sideChar, 0
-	sideSize: equ $-side
-	newline: db 10, 13, 0
-	newlineSize: equ $-newline
-		
+	sideLen: equ 40
+	grid: times sideLen*2 db 0, 0
+	gridSize: equ $-grid
+	char: equ '#'
 
 	stdin:  equ 0
 	stdout: equ 1
@@ -24,38 +21,31 @@ section .text
 	global _start
 
 _start:
-	call print_row
+	call initGrid
+	; exit with code 0
+	mov eax, syscall_write
+	mov ebx, stdout
+
+	mov ecx, grid
+	mov edx, sideLen*sideLen
+	int 80h
+
 
 	mov eax, syscall_exit
 	mov ebx, 0
 	int 80h
 
-write:
-	push eax
-	push ebx
-	mov eax, syscall_write
-	mov ebx, stdout
-	int 80h
-	pop ebx
-	pop eax
-	ret
+initGrid:
+	push char
+	mov eax, esp
 
-print_row:
-	push sideChar
-	mov ecx, esp
-	mov edx, 1
-	call write
+	mov ebx, grid
+
+	mov ecx, 0
+	_grid_loop:
+	mov [ebx + ecx], byte 35
+	inc ecx
+	cmp ecx, sideLen*sideLen
+	jne _grid_loop
 	add esp, 4
-
-.print_row_loop:
-	push sideChar
-	mov eax, sideLen-2
-	mov ecx, esp
-	mov edx, 1
-	call write
-	add esp, 4
-	sub eax, 1
-	cmp eax, 0
-	jne .print_row_loop
-
 	ret
